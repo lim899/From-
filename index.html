@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>金句收藏夹</title>
+<meta name="description" content="随手保存读到的好句子，手机上一键添加，离线可用。">
+<meta name="theme-color" content="#1f1d1b">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" href="./icons/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="金句">
+<link rel="stylesheet" href="./assets/styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-row">
+    <h1 class="brand"><span class="brand-mark">&ldquo;</span>金句收藏夹</h1>
+    <button class="icon-btn" id="btn-settings" type="button" aria-label="设置与导出">&#9881;</button>
+  </div>
+  <div class="search-row">
+    <input id="search" class="search" type="search" placeholder="搜索正文 / 出处 / 标签" autocomplete="off" enterkeyhint="search">
+    <button class="chip chip-toggle" id="btn-only-star" type="button" aria-pressed="false">★ 星标</button>
+  </div>
+  <div class="tagbar" id="tagbar" hidden></div>
+</header>
+
+<main id="list" class="list" aria-live="polite"></main>
+
+<p class="count" id="count"></p>
+
+<button class="fab" id="btn-add" type="button" aria-label="添加金句">＋</button>
+
+<!-- 添加 / 编辑 -->
+<div class="sheet-backdrop" id="sheet" hidden>
+  <form class="sheet" id="form" autocomplete="off">
+    <div class="sheet-handle"></div>
+    <h2 class="sheet-title" id="sheet-title">添加金句</h2>
+    <label class="field">
+      <span class="label">正文</span>
+      <textarea id="f-text" rows="5" required placeholder="把打动你的那句话粘在这里"></textarea>
+    </label>
+    <div class="field-row">
+      <label class="field">
+        <span class="label">出处</span>
+        <input id="f-source" type="text" placeholder="书名 / 文章">
+      </label>
+      <label class="field">
+        <span class="label">作者</span>
+        <input id="f-author" type="text" placeholder="谁说的">
+      </label>
+    </div>
+    <label class="field">
+      <span class="label">标签<em>（逗号或空格分隔）</em></span>
+      <input id="f-tags" type="text" placeholder="写作, 人生">
+    </label>
+    <label class="field">
+      <span class="label">链接</span>
+      <input id="f-url" type="url" inputmode="url" placeholder="https://">
+    </label>
+    <label class="field">
+      <span class="label">想法</span>
+      <textarea id="f-note" rows="2" placeholder="当时想到了什么"></textarea>
+    </label>
+    <div class="sheet-actions">
+      <button type="button" class="btn btn-ghost" id="btn-cancel">取消</button>
+      <button type="button" class="btn btn-danger" id="btn-delete" hidden>删除</button>
+      <button type="submit" class="btn btn-primary">保存</button>
+    </div>
+  </form>
+</div>
+
+<!-- 设置 -->
+<div class="sheet-backdrop" id="settings" hidden>
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <h2 class="sheet-title">设置与备份</h2>
+
+    <label class="switch">
+      <input type="checkbox" id="opt-autosave">
+      <span><strong>分享进来就自动保存</strong><em>关掉的话，分享后会先弹出编辑框</em></span>
+    </label>
+
+    <h3 class="sheet-sub">一键添加</h3>
+    <p class="hint">把下面这段拷进 iOS 快捷指令的「打开 URL」，或存成浏览器书签，选中文字后点一下就存进来。</p>
+    <textarea class="code" id="bookmarklet" rows="3" readonly></textarea>
+    <button class="btn btn-block" type="button" id="btn-copy-bm">复制</button>
+    <p class="hint">你的快捷添加地址：<code id="quickurl"></code></p>
+
+    <h3 class="sheet-sub">备份</h3>
+    <div class="sheet-actions sheet-actions-wrap">
+      <button class="btn" type="button" id="btn-export-json">导出 JSON</button>
+      <button class="btn" type="button" id="btn-export-md">导出 Markdown</button>
+      <button class="btn" type="button" id="btn-import">导入 JSON</button>
+    </div>
+    <input type="file" id="file-import" accept="application/json,.json" hidden>
+    <p class="hint">句子只存在这台设备的浏览器里，不会上传。换手机前记得导出一份。</p>
+
+    <div class="sheet-actions">
+      <button type="button" class="btn btn-ghost btn-block" id="btn-close-settings">关闭</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" hidden>
+  <span id="toast-text"></span>
+  <button type="button" class="toast-btn" id="toast-action" hidden></button>
+</div>
+
+<script src="./assets/app.js"></script>
+</body>
+</html>
