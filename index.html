@@ -3,112 +3,99 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>金句收藏夹</title>
-<meta name="description" content="随手保存读到的好句子，手机上一键添加，离线可用。">
-<meta name="theme-color" content="#1f1d1b">
-<link rel="manifest" href="./manifest.webmanifest">
-<link rel="icon" href="./icons/favicon-32.png" sizes="32x32">
-<link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="金句">
-<link rel="stylesheet" href="./assets/styles.css">
+<title>个人主页</title>
+<meta name="description" content="个人主页 —— 简介与作品。">
+<meta name="theme-color" content="#f6f3ec" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#131210" media="(prefers-color-scheme: dark)">
+
+<!-- 旧的快捷添加入口兼容：金句收藏夹以前住在根目录，存下来的书签小工具和 iOS
+     快捷指令指向的是 /?text=…。这段要在渲染之前跑，把它们转交给 /quotes/。 -->
+<script>
+(function () {
+  var s = location.search;
+  if (/[?&](text|q|quote)=/.test(s)) location.replace('./quotes/' + s + location.hash);
+})();
+</script>
+
+<link rel="icon" id="favicon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2316150f'/%3E%3Cpath d='M8 9h16M8 16h16M8 23h10' stroke='%23e8b04b' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E">
+
+<!-- 显示字体。不想要外部依赖的话，删掉下面这两行就行 ——
+     site.css 里的字体栈会自动退回到系统衬线字体，排版依然成立。 -->
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap">
+
+<link rel="stylesheet" href="./assets/site.css">
 </head>
 <body>
 
-<header class="topbar">
-  <div class="topbar-row">
-    <h1 class="brand"><span class="brand-mark">&ldquo;</span>金句收藏夹</h1>
-    <button class="icon-btn" id="btn-settings" type="button" aria-label="设置与导出">&#9881;</button>
+<div class="grain" aria-hidden="true"></div>
+
+<header class="masthead">
+  <div class="wrap masthead-row">
+    <a class="masthead-brand" href="#top"><span data-bind="name">&nbsp;</span></a>
+    <nav class="masthead-nav" aria-label="主导航">
+      <a href="#work">作品</a>
+      <a href="./quotes/">金句收藏夹</a>
+      <a data-bind="github" href="https://github.com/lim899" rel="noreferrer noopener">GitHub</a>
+    </nav>
   </div>
-  <div class="search-row">
-    <input id="search" class="search" type="search" placeholder="搜索正文 / 出处 / 标签" autocomplete="off" enterkeyhint="search">
-    <button class="chip chip-toggle" id="btn-only-star" type="button" aria-pressed="false">★ 星标</button>
-  </div>
-  <div class="tagbar" id="tagbar" hidden></div>
 </header>
 
-<main id="list" class="list" aria-live="polite"></main>
+<main id="top">
 
-<p class="count" id="count"></p>
+  <!-- ================= 首屏 ================= -->
+  <section class="hero" aria-labelledby="hero-name">
+    <div class="wrap">
 
-<button class="fab" id="btn-add" type="button" aria-label="添加金句">＋</button>
+      <p class="kicker" data-parallax="6">
+        <span data-bind="issue">ISSUE 01</span>
+        <span class="kicker-dot">·</span>
+        <span data-bind="year">2026</span>
+        <span class="kicker-dot">·</span>
+        <span>自 出 版</span>
+      </p>
 
-<!-- 添加 / 编辑 -->
-<div class="sheet-backdrop" id="sheet" hidden>
-  <form class="sheet" id="form" autocomplete="off">
-    <div class="sheet-handle"></div>
-    <h2 class="sheet-title" id="sheet-title">添加金句</h2>
-    <label class="field">
-      <span class="label">正文</span>
-      <textarea id="f-text" rows="5" required placeholder="把打动你的那句话粘在这里"></textarea>
-    </label>
-    <div class="field-row">
-      <label class="field">
-        <span class="label">出处</span>
-        <input id="f-source" type="text" placeholder="书名 / 文章">
-      </label>
-      <label class="field">
-        <span class="label">作者</span>
-        <input id="f-author" type="text" placeholder="谁说的">
-      </label>
+      <hr class="rule rule-thick">
+
+      <div class="hero-grid">
+        <div class="hero-text">
+          <h1 class="display" id="hero-name" data-parallax="10">&nbsp;</h1>
+          <p class="tagline" id="hero-tagline" data-parallax="6">&nbsp;</p>
+          <hr class="rule rule-gold">
+          <dl class="meta" id="hero-meta"></dl>
+          <p class="hero-links" id="hero-links"></p>
+        </div>
+
+        <figure class="portrait" data-parallax="-8">
+          <div class="portrait-frame">
+            <img id="avatar" alt="头像" width="360" height="360" decoding="async">
+          </div>
+          <figcaption><span data-bind="handle">@lim899</span></figcaption>
+        </figure>
+      </div>
+
     </div>
-    <label class="field">
-      <span class="label">标签<em>（逗号或空格分隔）</em></span>
-      <input id="f-tags" type="text" placeholder="写作, 人生">
-    </label>
-    <label class="field">
-      <span class="label">链接</span>
-      <input id="f-url" type="url" inputmode="url" placeholder="https://">
-    </label>
-    <label class="field">
-      <span class="label">想法</span>
-      <textarea id="f-note" rows="2" placeholder="当时想到了什么"></textarea>
-    </label>
-    <div class="sheet-actions">
-      <button type="button" class="btn btn-ghost" id="btn-cancel">取消</button>
-      <button type="button" class="btn btn-danger" id="btn-delete" hidden>删除</button>
-      <button type="submit" class="btn btn-primary">保存</button>
+  </section>
+
+  <!-- ================= 作品 ================= -->
+  <section class="work reveal" id="work" aria-labelledby="work-head">
+    <div class="wrap">
+      <h2 class="section-head" id="work-head"><span>Selected Work</span></h2>
+      <div class="cards" id="cards"></div>
+      <p class="work-note" id="work-note"></p>
     </div>
-  </form>
-</div>
+  </section>
 
-<!-- 设置 -->
-<div class="sheet-backdrop" id="settings" hidden>
-  <div class="sheet">
-    <div class="sheet-handle"></div>
-    <h2 class="sheet-title">设置与备份</h2>
+</main>
 
-    <label class="switch">
-      <input type="checkbox" id="opt-autosave">
-      <span><strong>分享进来就自动保存</strong><em>关掉的话，分享后会先弹出编辑框</em></span>
-    </label>
-
-    <h3 class="sheet-sub">一键添加</h3>
-    <p class="hint">把下面这段拷进 iOS 快捷指令的「打开 URL」，或存成浏览器书签，选中文字后点一下就存进来。</p>
-    <textarea class="code" id="bookmarklet" rows="3" readonly></textarea>
-    <button class="btn btn-block" type="button" id="btn-copy-bm">复制</button>
-    <p class="hint">你的快捷添加地址：<code id="quickurl"></code></p>
-
-    <h3 class="sheet-sub">备份</h3>
-    <div class="sheet-actions sheet-actions-wrap">
-      <button class="btn" type="button" id="btn-export-json">导出 JSON</button>
-      <button class="btn" type="button" id="btn-export-md">导出 Markdown</button>
-      <button class="btn" type="button" id="btn-import">导入 JSON</button>
-    </div>
-    <input type="file" id="file-import" accept="application/json,.json" hidden>
-    <p class="hint">句子只存在这台设备的浏览器里，不会上传。换手机前记得导出一份。</p>
-
-    <div class="sheet-actions">
-      <button type="button" class="btn btn-ghost btn-block" id="btn-close-settings">关闭</button>
-    </div>
+<footer class="foot reveal">
+  <div class="wrap foot-row">
+    <p class="foot-links" id="foot-links"></p>
+    <p class="foot-legal">&copy; <span data-bind="year">2026</span> <span data-bind="name">&nbsp;</span></p>
   </div>
-</div>
+</footer>
 
-<div class="toast" id="toast" hidden>
-  <span id="toast-text"></span>
-  <button type="button" class="toast-btn" id="toast-action" hidden></button>
-</div>
-
-<script src="./assets/app.js"></script>
+<script src="./assets/profile.js"></script>
+<script src="./assets/site.js"></script>
 </body>
 </html>
