@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>学习笔记</title>
+<meta name="description" content="按时间竖排的学习笔记。">
+<style>
+  :root{
+    --bg:#f7f6f3;
+    --card:#ffffff;
+    --text:#22201d;
+    --muted:#6f6a63;
+    --line:#e6e2db;
+    --accent:#b4552d;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#1b1a18;
+      --card:#242220;
+      --text:#eceae6;
+      --muted:#a19b93;
+      --line:#332f2c;
+      --accent:#e0885f;
+    }
+  }
+
+  *,*::before,*::after{ box-sizing:border-box; }
+
+  body{
+    margin:0;
+    padding:0;
+    background:var(--bg);
+    color:var(--text);
+    font:16px/1.75 -apple-system, BlinkMacSystemFont, "PingFang SC",
+         "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+    -webkit-text-size-adjust:100%;
+  }
+
+  .wrap{
+    width:100%;
+    max-width:680px;
+    margin:0 auto;
+    padding:32px 20px 56px;
+  }
+
+  .site-title{
+    margin:0 0 4px;
+    font-size:28px;
+    font-weight:700;
+    letter-spacing:.02em;
+  }
+  .site-title::after{
+    content:"";
+    display:block;
+    width:36px;
+    height:3px;
+    margin-top:12px;
+    border-radius:2px;
+    background:var(--accent);
+  }
+  .site-sub{
+    margin:16px 0 28px;
+    color:var(--muted);
+    font-size:14px;
+  }
+
+  .notes{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+  }
+
+  .note{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:20px;
+  }
+
+  .note-title{
+    margin:0;
+    font-size:18px;
+    font-weight:600;
+    line-height:1.5;
+  }
+
+  .note-date{
+    display:block;
+    margin-top:6px;
+    color:var(--muted);
+    font-size:13px;
+    font-variant-numeric:tabular-nums;
+  }
+
+  .note-body{
+    margin:14px 0 0;
+    color:var(--text);
+    overflow-wrap:break-word;
+  }
+
+  .foot{
+    margin:36px 0 0;
+    padding-top:16px;
+    border-top:1px solid var(--line);
+    color:var(--muted);
+    font-size:13px;
+    text-align:center;
+  }
+
+  @media (max-width:480px){
+    .wrap{ padding:24px 16px 40px; }
+    .site-title{ font-size:24px; }
+    .note{ padding:16px; border-radius:10px; }
+    .note-title{ font-size:17px; }
+    body{ font-size:15px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header>
+    <h1 class="site-title">学习笔记</h1>
+    <p class="site-sub">记录每天读到、想到、试过的东西。</p>
+  </header>
+
+  <main class="notes">
+
+    <article class="note">
+      <h2 class="note-title">示例笔记一：从被动读到主动问</h2>
+      <time class="note-date" datetime="2026-09-05">2026 年 9 月 5 日</time>
+      <p class="note-body">
+        今天试着换了读书的方式：先花两分钟看目录，写下三个想弄清楚的问题，再带着问题去读。
+        读完只回答这三个问题，不做通篇摘抄。效果比逐字划线好得多——注意力有了落点，
+        合上书也能立刻复述出主线。下次准备把问题写在便签上贴在页边，避免读着读着又跑偏。
+      </p>
+    </article>
+
+    <article class="note">
+      <h2 class="note-title">示例笔记二：间隔重复的正确用法</h2>
+      <time class="note-date" datetime="2026-09-03">2026 年 9 月 3 日</time>
+      <p class="note-body">
+        以前以为间隔重复就是多刷几遍卡片，其实关键在「先回忆再看答案」。
+        今天把卡片正面全部改写成问句，反面只留一句话结论，复习时强迫自己先说出口。
+        错一次就把间隔清零。虽然单次复习更累，但一周后的留存明显更稳，卡片数量也少了三分之一。
+      </p>
+    </article>
+
+    <article class="note">
+      <h2 class="note-title">示例笔记三：把学到的东西写出来</h2>
+      <time class="note-date" datetime="2026-08-30">2026 年 8 月 30 日</time>
+      <p class="note-body">
+        写作是最诚实的检验：能讲清楚的才算真懂。这周尝试每学完一个小主题就写两百字说明，
+        假想读者是一个月前的自己。写的过程中总会卡在某一步，那一步往往正是理解的漏洞。
+        补完再写一遍，思路就顺了。打算把这条固定成习惯，每条笔记都以一段自述收尾。
+      </p>
+    </article>
+
+  </main>
+
+  <p class="foot">共 3 条笔记</p>
+
+</div>
+
+</body>
+</html>
